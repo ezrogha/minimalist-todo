@@ -5,15 +5,15 @@ import { Ionicons } from '@expo/vector-icons'
 import { SvgCheckRect } from './Checkbox'
 import shortid from 'shortid'
 import { useAppDispatch } from '../hooks/redux'
-import { addTodo, todoText, updateTodo } from '../redux/todoSlice'
-import { inputTaskTypes } from '../screens/AppContainer'
+import { addTodo, todo, updateTodo } from '../redux/todoSlice'
+import { inputTaskTypes } from '../constants/states'
 
 type taskType = inputTaskTypes.EDIT | inputTaskTypes.NEW
 
 interface Props {
   openBottomInput: (value: boolean) => void
   inputTaskType: taskType
-  selectedTodo: todoText
+  selectedTodo: todo
 }
 
 const TodoInput = ({ openBottomInput, inputTaskType, selectedTodo }: Props) => {
@@ -45,8 +45,6 @@ const TodoInput = ({ openBottomInput, inputTaskType, selectedTodo }: Props) => {
     openBottomInput(false)  
   }
 
-  console.log("TODO:", selectedTodo)
-
   return (
     <>
       <Pressable
@@ -59,7 +57,6 @@ const TodoInput = ({ openBottomInput, inputTaskType, selectedTodo }: Props) => {
 
       <Box
         w="full"
-        // h="32"
         minH="32"
         backgroundColor="white"
         position="absolute"

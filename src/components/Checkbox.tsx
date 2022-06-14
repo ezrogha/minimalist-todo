@@ -78,7 +78,6 @@ const Checkbox = ({ checked }: Props) => {
         <CheckRect />
         <AnimatedPath
           d={pathShape}
-          progress={progress}
           stroke={checkThemeColor}
           strokeWidth="10"
           strokeLinejoin='round'

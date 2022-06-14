@@ -1,38 +1,33 @@
-import { Pressable, View, StyleSheet } from 'react-native'
+// import { Pressable, View, StyleSheet } from 'react-native'
+import { Pressable } from 'react-native'
 import React, { useState } from 'react'
 import {
-  Center,
   StatusBar,
   useColorMode,
   Fab,
   Icon,
   VStack,
   Box,
-  FlatList,
   Text,
-  HStack
+  HStack,
+  ScrollView,
 } from 'native-base'
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign, Ionicons } from '@expo/vector-icons'
 import TaskItem from '../components/TaskItem'
-import { useReducer } from 'react'
-import { todoReducer, initialTodoState } from '../redux/todo'
 import TodoInput from '../components/TodoInput'
 import { useAppSelector } from '../hooks/redux'
 import ThemeToggle from '../components/ThemeToggle'
 import { todo } from '../redux/todoSlice'
+import { inputTaskTypes } from '../constants/states'
+import NoTasks from '../components/NoTasks'
 
-export enum inputTaskTypes {
-  NEW = 'new',
-  EDIT = 'edit'
-}
 
 const AppContainer = () => {
   const [isBottomInput, openBottomInput] = useState(false)
   const [inputTaskType, setInputTaskType] = useState(inputTaskTypes.NEW)
   const [selectedTodo, setSelectedTodo] = useState<todo | null>(null)
+  const [isCompletedHidden, showComplete] = useState(true)
   const { colorMode } = useColorMode()
-
-  // const [state, dispatch] = useReducer(todoReducer, initialTodoState)
 
   const todos = useAppSelector(state => state.todos)
 
@@ -49,27 +44,55 @@ const AppContainer = () => {
     <>
       <Box
         _dark={{ bg: 'blueGray.900' }}
-        _light={{ bg: 'light.200' }}
-        // px={4}
-
+        _light={{ bg: 'light.100' }}
         flex={1}
         safeArea
       >
-        <VStack alignItems="center" py='2'>
-          <Box pb='4'>
+        <VStack alignItems="center" py='2' flex={1}>
+          <HStack
+            pb='4'
+            px='2'
+            alignItems='center'
+            justifyContent='space-between'
+            w='full'
+          >
+            <Text fontSize={'50'}>Tasks</Text>
             <ThemeToggle />
-          </Box>
-          {todos.undone.map(todo => {
-            return <TaskItem key={todo.id} {...{ openInput, todo, selectTodo }} />
-          })}
-          {todos.done.length > 0 && (
-            <HStack ml='12' my='5' width='full'>
-              <Text fontWeight='medium' color="muted.400">Completed {todos.done.length}</Text>
-            </HStack>
-          )}
-          {todos.done.map(todo => {
-            return <TaskItem key={todo.id} {...{ openInput, todo, selectTodo }} />
-          })}
+          </HStack>
+          {
+            todos.done.length === 0 &&
+              todos.undone.length === 0 ? <NoTasks /> : (       
+                <ScrollView
+                  contentContainerStyle={{ alignItems: 'center' }}
+                  flex={1} width='full'
+                >
+                  {todos.undone.map(todo => {
+                    return <TaskItem key={todo.id} {...{ openInput, todo, selectTodo }} />
+                  })}
+                  {todos.done.length > 0 && (
+                    <Box w='full' ml='10'>
+                      <Pressable onPress={() => showComplete(!isCompletedHidden)}>
+                        <HStack
+                          my='5'
+                          alignItems="center"
+                        >
+                          <Icon
+                            name={isCompletedHidden ? "chevron-down-outline" : "chevron-up-outline"}
+                            color="muted.400"
+                            as={Ionicons}
+                            size="5" mr="1"
+                          />
+                          <Text fontWeight='medium' color="muted.400">Completed {todos.done.length}</Text>
+                        </HStack>
+                      </Pressable>
+                    </Box>
+                  )}
+                  {isCompletedHidden && todos.done.map(todo => {
+                    return <TaskItem key={todo.id} {...{ openInput, todo, selectTodo }} />
+                  })}
+                </ScrollView>
+              )
+          }
         </VStack>
         <StatusBar
           barStyle={colorMode === 'light' ? 'dark-content' : 'light-content'}
