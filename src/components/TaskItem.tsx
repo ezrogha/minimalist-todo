@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet } from 'react-native'
-import { Box, Button, HStack, Pressable, View, Icon } from 'native-base'
+import { Box, Button, HStack, Pressable, View, Icon, useColorModeValue } from 'native-base'
 import Animated, {
   runOnJS,
   interpolate,
@@ -51,7 +51,7 @@ const TaskItem = ({ openInput, todo, selectTodo }: Props) => {
     )
   }, [todo.completed])
 
-  const AnimatedView = Animated.createAnimatedComponent(View)
+  // const AnimatedView = Animated.createAnimatedComponent(View)
   const AnimatedDelBtn = Animated.createAnimatedComponent(Button)
 
   const taskAnimatedStyles = useAnimatedStyle(
@@ -193,8 +193,7 @@ const TaskItem = ({ openInput, todo, selectTodo }: Props) => {
         onPress={handleTodoSelection}
       >
         <PanGestureHandler onGestureEvent={panGesture}>
-          <AnimatedView
-            shadow='3'
+          <Animated.View
             style={[
               styles.container,
               taskAnimatedStyles,
@@ -202,15 +201,22 @@ const TaskItem = ({ openInput, todo, selectTodo }: Props) => {
               swipeAnimatedStyle
             ]}
           >
-            <HStack alignItems="center">
-              <Box w="20px" h="20px" mr={2}>
-                <Pressable onPress={toggleCheck}>
-                  <Checkbox checked={todo.completed} />
-                </Pressable>
-              </Box>
-              <TaskLabel checked={todo.completed} text={todo.text} />
-            </HStack>
-          </AnimatedView>
+            <View
+              style={styles.container}
+              shadow='3'
+              p='10px'
+              bg={useColorModeValue('blueGray.50', 'blueGray.800')}
+            >
+              <HStack alignItems="center">
+                <Box w="20px" h="20px" mr={2}>
+                  <Pressable onPress={toggleCheck}>
+                    <Checkbox checked={todo.completed} />
+                  </Pressable>
+                </Box>
+                <TaskLabel checked={todo.completed} text={todo.text} />
+              </HStack>
+            </View>
+          </Animated.View>
         </PanGestureHandler>
       </Pressable> 
     </HStack>
@@ -222,9 +228,7 @@ export default TaskItem
 const styles = StyleSheet.create({
   container: {
     width: CONTENT_WIDTH,
-    backgroundColor: 'white',
-    padding: 10,
-    // height: TASK_HEIGHT,
+    height: TASK_HEIGHT,
     borderRadius: 12,
     justifyContent: 'center'
   }

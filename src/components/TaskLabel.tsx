@@ -1,6 +1,6 @@
 import { View } from 'react-native'
 import React, {useEffect} from 'react'
-import { Box, HStack, Text } from 'native-base'
+import { Box, HStack, Text, useColorModeValue, useTheme, themeTools } from 'native-base'
 import Animated, { interpolate, useSharedValue, withDelay, withTiming, useAnimatedStyle, interpolateColor } from 'react-native-reanimated'
 
 interface Props {
@@ -15,13 +15,26 @@ const TaskLabel = ({ checked, text }: Props) => {
 
   const AnimatedBox = Animated.createAnimatedComponent(Box)
   const AnimatedLabel = Animated.createAnimatedComponent(Text)
+  const theme = useTheme()
+  const darkThemeTextColor = themeTools.getColor(
+    theme,
+    useColorModeValue('muted.400', 'muted.500')
+  )
+  const lightThemeTextColor = themeTools.getColor(
+    theme,
+    useColorModeValue('dark.50', 'blueGray.50')
+  )
 
   const strikeThruAnimatedStyle = useAnimatedStyle(() => ({
     width: `${strikeThruProgress.value * 93}%`,
   }), [])
 
   const labelAnimatedStyle = useAnimatedStyle(() => ({
-      color: interpolateColor(colorProgress.value, [0, 1], ['black', 'grey'])
+      color: interpolateColor(
+        colorProgress.value,
+        [0, 1],
+        [lightThemeTextColor, darkThemeTextColor]
+      )
   }))
 
   useEffect(() => {
@@ -42,6 +55,7 @@ const TaskLabel = ({ checked, text }: Props) => {
                 noOfLines={1}
                 isTruncated
                 px={1}
+                fontSize={"15"}
                 fontWeight={'bold'}
                 style={[labelAnimatedStyle]}
             >
@@ -51,7 +65,7 @@ const TaskLabel = ({ checked, text }: Props) => {
                 position={"absolute"}
                 h={1}
                 ml={1}
-                borderBottomColor={"black"}
+                borderBottomColor={darkThemeTextColor}
                 borderBottomWidth={1}
                 style={[strikeThruAnimatedStyle]}
             />

@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { Box, HStack, Icon, Input, VStack, Text } from 'native-base'
+import { Box, HStack, Icon, Input, VStack, Text, useColorModeValue, themeTools, useTheme, useToast } from 'native-base'
 import { Ionicons } from '@expo/vector-icons'
 import { SvgCheckRect } from './Checkbox'
 import shortid from 'shortid'
@@ -17,6 +17,24 @@ interface Props {
 }
 
 const TodoInput = ({ openBottomInput, inputTaskType, selectedTodo }: Props) => {
+
+  const theme = useTheme()
+  const toast = useToast()
+
+  const disabledBtn = themeTools.getColor(
+    theme,
+    useColorModeValue('muted.400', 'blueGray.700')
+  )
+
+  const enabledBtn = themeTools.getColor(
+    theme,
+    useColorModeValue('blueGray.700', 'blueGray.200')
+  )
+
+  const reminderBtnColor = themeTools.getColor(
+    theme,
+    useColorModeValue('blueGray.300', 'blueGray.700')
+  )
 
   const dispatch = useAppDispatch()
 
@@ -58,7 +76,7 @@ const TodoInput = ({ openBottomInput, inputTaskType, selectedTodo }: Props) => {
       <Box
         w="full"
         minH="32"
-        backgroundColor="white"
+        backgroundColor={useColorModeValue('blueGray.50', 'blueGray.800')}
         position="absolute"
         bottom={0}
         borderTopRadius={16}
@@ -88,8 +106,9 @@ const TodoInput = ({ openBottomInput, inputTaskType, selectedTodo }: Props) => {
 
           <HStack alignItems="center" justifyContent="space-between">
             <Pressable
+              onPress={() => toast.show({ description: "Coming Soon! ☺️" })}
               style={{
-                backgroundColor: 'rgb(230,230,230)',
+                backgroundColor: reminderBtnColor,
                 borderRadius: 20,
                 paddingHorizontal: 12,
                 paddingVertical: 5
@@ -103,7 +122,7 @@ const TodoInput = ({ openBottomInput, inputTaskType, selectedTodo }: Props) => {
             <Pressable onPress={addItem}>
               <Text
                 fontSize={16}
-                color={todoText.length < 1 ? "rgb(200,200,200)" : "blueGray.700"}
+                color={todoText.length < 1 ? disabledBtn : enabledBtn}
                 fontWeight="bold">
                 Done
               </Text>

@@ -48,18 +48,12 @@ const Checkbox = ({ checked }: Props) => {
 
   const theme = useTheme()
 
-  // const boxThemeColor = themeTools.getColor(
-  //   theme,
-  //   useColorModeValue('blueGray.900', 'blueGray.300')
-  // )
-
   const checkThemeColor = themeTools.getColor(
     theme,
     useColorModeValue('blueGray.900', 'blueGray.300')
   )
 
   const AnimatedPath = Animated.createAnimatedComponent(Path)
-  // const AnimatedRect = Animated.createAnimatedComponent(Rect)
 
   const checkRef = useRef(null)
 
