@@ -44,6 +44,8 @@ const CheckRect = () => {
 
 const Checkbox = ({ checked }: Props) => {
   const [checkLength, setCheckLength] = useState(0)
+  const checkRef = useRef(null)
+  
   const progress = useSharedValue(0)
 
   const theme = useTheme()
@@ -55,7 +57,6 @@ const Checkbox = ({ checked }: Props) => {
 
   const AnimatedPath = Animated.createAnimatedComponent(Path)
 
-  const checkRef = useRef(null)
 
   const animatedPathProps = useAnimatedProps(() => ({
     strokeDashoffset: (1 - progress.value) * checkLength
@@ -79,7 +80,6 @@ const Checkbox = ({ checked }: Props) => {
           ref={checkRef}
           onLayout={() => setCheckLength(checkRef.current?.getTotalLength())}
           strokeDasharray={checkLength}
-          // strokeDashoffset={checkLength}
           animatedProps={animatedPathProps}
           strokeOpacity={checked || false ? 1 : 0}
         />

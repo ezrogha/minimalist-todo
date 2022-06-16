@@ -1,7 +1,7 @@
 import { View } from 'react-native'
 import React, {useEffect} from 'react'
 import { Box, HStack, Text, useColorModeValue, useTheme, themeTools } from 'native-base'
-import Animated, { interpolate, useSharedValue, withDelay, withTiming, useAnimatedStyle, interpolateColor } from 'react-native-reanimated'
+import Animated, { useSharedValue, withDelay, withTiming, useAnimatedStyle, interpolateColor } from 'react-native-reanimated'
 
 interface Props {
     checked: boolean
