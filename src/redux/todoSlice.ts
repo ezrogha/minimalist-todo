@@ -56,7 +56,7 @@ const todoSlice = createSlice({
             StorageService.saveTodos(JSON.stringify(state))
         },
         restoreTodos(_, action){
-            const todos = JSON.parse(action.payload)
+            const todos = action.payload
             return todos
         }
     }

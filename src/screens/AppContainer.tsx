@@ -32,7 +32,10 @@ const AppContainer = () => {
 
   useEffect(() => {
     (async() => {
-      dispatch(restoreTodos(await StorageService.getTodos()))
+      const todos = await StorageService.getTodos()
+      if(todos){
+        dispatch(restoreTodos(JSON.parse(todos)))
+      }
     })()
   }, [])
 
