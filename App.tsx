@@ -12,7 +12,7 @@ export default function App() {
     <Provider store={store}>
       <NativeBaseProvider theme={theme}>
         <SafeAreaProvider>
-          <AppContainer />
+          <Navigator />
         </SafeAreaProvider>
       </NativeBaseProvider>
     </Provider>

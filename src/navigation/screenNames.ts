@@ -1,1 +1,1 @@
-export const HOME_SCREEN = 'Home';
+export const HOME_SCREEN = 'Tasks';
