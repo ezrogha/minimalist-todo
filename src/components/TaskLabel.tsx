@@ -2,6 +2,7 @@ import { View } from 'react-native'
 import React, {useEffect} from 'react'
 import { Box, HStack, Text, useColorModeValue, useTheme, themeTools } from 'native-base'
 import Animated, { useSharedValue, withDelay, withTiming, useAnimatedStyle, interpolateColor } from 'react-native-reanimated'
+import { CONTENT_WIDTH } from '../constants/size'
 
 interface Props {
     checked: boolean
@@ -54,6 +55,7 @@ const TaskLabel = ({ checked, text }: Props) => {
             <AnimatedLabel
                 noOfLines={1}
                 isTruncated
+                w={CONTENT_WIDTH*0.8}
                 px={1}
                 fontSize={"15"}
                 fontWeight={'bold'}

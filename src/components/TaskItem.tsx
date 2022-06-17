@@ -192,7 +192,7 @@ const TaskItem = ({ openInput, todo, selectTodo }: Props) => {
         disabled={taskDisabled}
         onPress={handleTodoSelection}
       >
-        <PanGestureHandler onGestureEvent={panGesture}>
+        <PanGestureHandler activeOffsetX={[-1, 1]} onGestureEvent={panGesture}>
           <Animated.View
             style={[
               styles.container,
@@ -204,7 +204,7 @@ const TaskItem = ({ openInput, todo, selectTodo }: Props) => {
             <View
               style={styles.container}
               shadow='3'
-              p='10px'
+              pl='20px'
               bg={useColorModeValue('blueGray.50', 'blueGray.800')}
             >
               <HStack alignItems="center">
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
   container: {
     width: CONTENT_WIDTH,
     height: TASK_HEIGHT,
-    borderRadius: 12,
+    borderRadius: 20,
     justifyContent: 'center'
   }
 })
