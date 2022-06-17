@@ -66,7 +66,7 @@ const AppContainer = () => {
       >
         <VStack alignItems="center" py='2' flex={1}>
           <HStack
-            pb='4'
+            pb='2'
             px='2'
             alignItems='center'
             justifyContent='space-between'

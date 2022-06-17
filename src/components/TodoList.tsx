@@ -17,9 +17,12 @@ const TodoList = ({ openInput, selectTodo }: Props) => {
 
   return (
     <ScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
       contentContainerStyle={{ alignItems: 'center' }}
       flex={1}
       width="full"
+      pt="2"
     >
       {todos.undone.map(todo => {
         return <TaskItem key={todo.id} {...{ openInput, todo, selectTodo }} />

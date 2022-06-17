@@ -55,7 +55,7 @@ const TaskLabel = ({ checked, text }: Props) => {
             <AnimatedLabel
                 noOfLines={1}
                 isTruncated
-                w={CONTENT_WIDTH*0.8}
+                maxW={CONTENT_WIDTH*0.8}
                 px={1}
                 fontSize={"15"}
                 fontWeight={'bold'}
