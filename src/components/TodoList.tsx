@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React, { useState } from 'react'
-import { ScrollView } from 'native-base'
+import { Box, ScrollView } from 'native-base'
 import TaskItem from './TaskItem'
 import CompleteDropdown from './CompleteDropdown'
 import { todo, todos } from '../redux/todoSlice'
@@ -23,6 +23,7 @@ const TodoList = ({ openInput, selectTodo }: Props) => {
       flex={1}
       width="full"
       pt="2"
+      
     >
       {todos.undone.map(todo => {
         return <TaskItem key={todo.id} {...{ openInput, todo, selectTodo }} />
@@ -34,6 +35,7 @@ const TodoList = ({ openInput, selectTodo }: Props) => {
         todos.done.map(todo => {
           return <TaskItem key={todo.id} {...{ openInput, todo, selectTodo }} />
       })}
+      <Box h="80px" />
     </ScrollView>
   )
 }

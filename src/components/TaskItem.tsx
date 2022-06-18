@@ -192,7 +192,7 @@ const TaskItem = ({ openInput, todo, selectTodo }: Props) => {
         disabled={taskDisabled}
         onPress={handleTodoSelection}
       >
-        <PanGestureHandler activeOffsetX={[-10, 10]} onGestureEvent={panGesture}>
+        <PanGestureHandler activeOffsetX={[-15, 15]} onGestureEvent={panGesture}>
           <Animated.View
             style={[
               styles.container,
