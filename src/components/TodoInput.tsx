@@ -1,6 +1,17 @@
-import { Pressable, StyleSheet } from 'react-native'
+import { Pressable, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { Box, HStack, Icon, Input, VStack, Text, useColorModeValue, themeTools, useTheme, useToast } from 'native-base'
+import {
+  Box,
+  HStack,
+  Icon,
+  Input,
+  VStack,
+  Text,
+  useColorModeValue,
+  themeTools,
+  useTheme,
+  useToast
+} from 'native-base'
 import { Ionicons } from '@expo/vector-icons'
 import { SvgCheckRect } from './Checkbox'
 import shortid from 'shortid'
@@ -17,7 +28,6 @@ interface Props {
 }
 
 const TodoInput = ({ openBottomInput, inputTaskType, selectedTodo }: Props) => {
-
   const theme = useTheme()
   const toast = useToast()
 
@@ -41,95 +51,99 @@ const TodoInput = ({ openBottomInput, inputTaskType, selectedTodo }: Props) => {
   const [todoText, setTodoText] = useState('')
 
   useEffect(() => {
-      if(!!selectedTodo){
-        setTodoText(selectedTodo.text)
-      }
+    if (!!selectedTodo) {
+      setTodoText(selectedTodo.text)
+    }
   }, [selectedTodo])
 
   const addItem = () => {
-    if(todoText.length < 1) return;
+    if (todoText.length < 1) return
 
-    if(inputTaskType === inputTaskTypes.NEW) {
-        const todoData = {
-            id: shortid.generate(),
-            text: todoText,
-            completed: false
-        }
-        dispatch(addTodo(todoData))  
+    if (inputTaskType === inputTaskTypes.NEW) {
+      const todoData = {
+        id: shortid.generate(),
+        text: todoText,
+        completed: false
+      }
+      dispatch(addTodo(todoData))
     } else {
-        dispatch(updateTodo({todo: selectedTodo, newText: todoText}))
+      dispatch(updateTodo({ todo: selectedTodo, newText: todoText }))
     }
 
-    openBottomInput(false)  
+    openBottomInput(false)
   }
 
   return (
     <>
       <Pressable
         onPress={() => {
-            addItem()
-            openBottomInput(false)
+          addItem()
+          openBottomInput(false)
         }}
         style={styles.dismissableOverlay}
       />
-
-      <Box
-        w="full"
-        minH="32"
-        backgroundColor={useColorModeValue('blueGray.50', 'blueGray.800')}
-        position="absolute"
-        bottom={0}
-        borderTopRadius={16}
-        py="4"
-        px="5"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'position' : 'height'}
       >
-        <VStack justifyContent="space-between" pb={3} h="full">
-          <VStack pb={4}>
-            <HStack alignItems="center">
-              <Box w="20px" h="20px" borderColor="black">
-                <SvgCheckRect />
-              </Box>
-              <Input
-                variant={'unstyled'}
-                autoFocus={true}
-                placeholder='Enter your TODO task'
-                fontSize={16}
-                multiline
-                value={todoText}
-                onSubmitEditing={addItem}
-                onChangeText={text => {
-                    setTodoText(text)                    
+        <Box
+          w="full"
+          minH="32"
+          backgroundColor={useColorModeValue('blueGray.50', 'blueGray.800')}
+          position="absolute"
+          bottom={0}
+          borderTopRadius={16}
+          py="4"
+          px="5"
+        >
+          <VStack justifyContent="space-between" pb={3} h="full">
+            <VStack pb={4}>
+              <HStack alignItems="center">
+                <Box w="20px" h="20px" borderColor="black">
+                  <SvgCheckRect />
+                </Box>
+                <Input
+                  variant={'unstyled'}
+                  autoFocus={true}
+                  placeholder="Enter your TODO task"
+                  fontSize={16}
+                  multiline
+                  value={todoText}
+                  onSubmitEditing={addItem}
+                  onChangeText={text => {
+                    setTodoText(text)
+                  }}
+                />
+              </HStack>
+            </VStack>
+
+            <HStack alignItems="center" justifyContent="space-between">
+              <Pressable
+                onPress={() => toast.show({ description: 'Coming Soon! ☺️' })}
+                style={{
+                  backgroundColor: reminderBtnColor,
+                  borderRadius: 20,
+                  paddingHorizontal: 12,
+                  paddingVertical: 5
                 }}
-              />
+              >
+                <HStack alignItems="center">
+                  <Icon as={Ionicons} name="alarm-outline" size="lg" />
+                  <Text ml="1">Set reminder</Text>
+                </HStack>
+              </Pressable>
+              <Pressable onPress={addItem}>
+                <Text
+                  fontSize={16}
+                  color={todoText.length < 1 ? disabledBtn : enabledBtn}
+                  fontWeight="bold"
+                >
+                  Done
+                </Text>
+              </Pressable>
             </HStack>
           </VStack>
-
-          <HStack alignItems="center" justifyContent="space-between">
-            <Pressable
-              onPress={() => toast.show({ description: "Coming Soon! ☺️" })}
-              style={{
-                backgroundColor: reminderBtnColor,
-                borderRadius: 20,
-                paddingHorizontal: 12,
-                paddingVertical: 5
-              }}
-            >
-              <HStack alignItems="center">
-                <Icon as={Ionicons} name="alarm-outline" size="lg" />
-                <Text ml="1">Set reminder</Text>
-              </HStack>
-            </Pressable>
-            <Pressable onPress={addItem}>
-              <Text
-                fontSize={16}
-                color={todoText.length < 1 ? disabledBtn : enabledBtn}
-                fontWeight="bold">
-                Done
-              </Text>
-            </Pressable>
-          </HStack>
-        </VStack>
-      </Box>
+        </Box>
+      </KeyboardAvoidingView>
     </>
   )
 }
