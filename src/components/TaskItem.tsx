@@ -204,15 +204,22 @@ const TaskItem = ({ openInput, todo, selectTodo }: Props) => {
             <View
               style={styles.container}
               shadow='3'
-              pl='20px'
+              // pl='20px'
               bg={useColorModeValue('blueGray.50', 'blueGray.800')}
             >
               <HStack alignItems="center">
-                <Box w="20px" h="20px" mr={2}>
-                  <Pressable onPress={toggleCheck}>
-                    <Checkbox checked={todo.completed} />
+                  <Pressable
+                    onPress={toggleCheck}
+                    paddingY="18px"
+                    paddingX="1"
+                    pl='20px'
+                    mr={1}
+                    // borderWidth="1"
+                  >                    
+                    <Box w="20px" h="20px">
+                        <Checkbox checked={todo.completed} />
+                    </Box>
                   </Pressable>
-                </Box>
                 <TaskLabel checked={todo.completed} text={todo.text} />
               </HStack>
             </View>

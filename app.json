@@ -22,6 +22,8 @@
       "bundleIdentifier": "com.ezrogha.minimalistTodoRgh"
     },
     "android": {
+      "package": "com.ezrogha.minimalistTodoRgh",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
